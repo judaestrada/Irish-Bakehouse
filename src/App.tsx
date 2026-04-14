@@ -119,9 +119,9 @@ export default function App() {
           <div className="space-y-4">
             <h4 className="font-serif text-lg">Visit Us</h4>
             <p className="text-sm text-muted-foreground">
-              123 Emerald Lane<br />
-              Dublin District, MX<br />
-              Mon-Sun: 7:00 AM - 8:00 PM
+              Margaritas 40A,<br />
+              Jardines de Queretaro, 76020 Santiago de Querétaro, Qro.<br />
+              Mon-Sun: 7:00 AM - 7:00 PM
             </p>
           </div>
           <div className="space-y-4">
