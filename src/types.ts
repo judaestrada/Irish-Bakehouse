@@ -15,6 +15,7 @@ export interface Product {
 
 export interface CartItem extends Product {
   quantity: number;
+  specialInstructions?: string;
 }
 
 export type TabType = 'HOME' | 'MENU' | 'BAKE COURSE' | 'TOUR' | 'THE DAILY PROMO' | 'CART';

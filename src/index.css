@@ -1,38 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Montserrat", sans-serif;
 
-  --color-background: #fdfcf8;
-  --color-foreground: #2c241e;
+  --color-background: #fefae0; /* Soft floury white */
+  --color-foreground: #2d2d2d; /* Charcoal for text */
   
   --color-card: #ffffff;
-  --color-card-foreground: #2c241e;
+  --color-card-foreground: #2d2d2d;
   
   --color-primary: #2d4a22; /* Deep Irish Green */
-  --color-primary-foreground: #fdfcf8;
+  --color-primary-foreground: #ffffff;
   
-  --color-secondary: #8b5e3c; /* Warm Bread Brown */
-  --color-secondary-foreground: #fdfcf8;
+  --color-secondary: #2d2d2d; /* Charcoal */
+  --color-secondary-foreground: #ffffff;
   
-  --color-accent: #d4a373; /* Golden Crust */
-  --color-accent-foreground: #2c241e;
+  --color-accent: #d4a373; /* Honey/Crust gold */
+  --color-accent-foreground: #2d2d2d;
   
-  --color-muted: #f1ede4;
-  --color-muted-foreground: #6b5e54;
+  --color-muted: #f5f0d8;
+  --color-muted-foreground: #6b6b6b;
   
-  --color-border: #e6e0d4;
-  --color-input: #e6e0d4;
-  --color-ring: #2d4a22;
+  --color-border: #e0e0e0;
+  --color-input: #e0e0e0;
+  --color-ring: #d4a373;
   
   --color-destructive: #ef4444;
-  --color-destructive-foreground: #fdfcf8;
+  --color-destructive-foreground: #ffffff;
 
-  --radius-lg: 1rem;
-  --radius-md: calc(1rem - 2px);
-  --radius-sm: calc(1rem - 4px);
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
 }
 
 @layer base {

@@ -59,20 +59,19 @@ export default function Navbar({ activeTab, onTabChange, cartCount }: NavbarProp
         </button>
 
         {/* Navigation Buttons - Desktop */}
-        <div className="hidden md:flex flex-1 items-center justify-end gap-2 px-2">
+        <div className="hidden md:flex flex-1 items-center justify-center gap-12 px-2">
           {tabs.map((tab) => (
-            <Button
+            <button
               key={tab}
-              variant={activeTab === tab ? "default" : "ghost"}
               onClick={() => onTabChange(tab)}
-              className={`rounded-full whitespace-nowrap text-xs lg:text-sm font-medium transition-all duration-300 ${
+              className={`whitespace-nowrap text-sm font-sans font-semibold uppercase tracking-widest transition-colors duration-300 pb-1 border-b-2 ${
                 activeTab === tab 
-                  ? 'shadow-md bg-primary text-primary-foreground' 
-                  : 'hover:bg-primary/10 text-muted-foreground hover:text-primary'
+                  ? 'border-accent text-accent' 
+                  : 'border-transparent text-foreground hover:text-accent'
               }`}
             >
               {tab}
-            </Button>
+            </button>
           ))}
         </div>
 
