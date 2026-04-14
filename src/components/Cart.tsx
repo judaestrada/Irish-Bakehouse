@@ -46,7 +46,7 @@ export default function Cart({ items, onUpdateQuantity, onRemove, onCheckout }: 
         <div className="lg:col-span-2 space-y-4">
           <ScrollArea className="h-[60vh] pr-4">
             {items.map(item => (
-              <div key={item.id} className="flex gap-4 py-4 group">
+              <div key={item.id} className="flex gap-4 py-4 px-4 mb-4 bg-card text-card-foreground rounded-2xl shadow-sm border border-border/50 group hover:shadow-md transition-shadow">
                 <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
                   <img 
                     src={`https://picsum.photos/seed/${item.id}/200/200`} 
@@ -55,41 +55,50 @@ export default function Cart({ items, onUpdateQuantity, onRemove, onCheckout }: 
                     referrerPolicy="no-referrer"
                   />
                 </div>
-                <div className="flex-grow space-y-1">
+                <div className="flex-grow space-y-2">
                   <div className="flex justify-between items-start">
-                    <h3 className="font-serif text-lg">{item.name}</h3>
+                    <h3 className="font-serif text-xl font-bold text-primary">{item.name}</h3>
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="text-muted-foreground hover:text-destructive"
+                      className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive rounded-full"
                       onClick={() => onRemove(item.id)}
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
-                  <p className="text-sm text-muted-foreground">${item.price} MXN</p>
-                  <div className="flex items-center gap-3 pt-2">
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="h-8 w-8 rounded-full"
-                      onClick={() => onUpdateQuantity(item.id, -1)}
-                    >
-                      <Minus className="w-3 h-3" />
-                    </Button>
-                    <span className="font-medium w-4 text-center">{item.quantity}</span>
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="h-8 w-8 rounded-full"
-                      onClick={() => onUpdateQuantity(item.id, 1)}
-                    >
-                      <Plus className="w-3 h-3" />
-                    </Button>
+                  <p className="text-sm font-medium text-muted-foreground">${item.price} MXN each</p>
+                  
+                  <div className="flex items-center justify-between pt-2">
+                    {/* Quantity Collector */}
+                    <div className="flex items-center gap-3 bg-muted/50 p-1 rounded-full border border-border/50">
+                      <Button 
+                        variant="secondary" 
+                        size="icon" 
+                        className="h-8 w-8 rounded-full shadow-sm hover:shadow-md transition-all"
+                        onClick={() => onUpdateQuantity(item.id, -1)}
+                      >
+                        <Minus className="w-4 h-4" />
+                      </Button>
+                      <span className="font-bold text-lg w-6 text-center text-foreground">{item.quantity}</span>
+                      <Button 
+                        variant="secondary" 
+                        size="icon" 
+                        className="h-8 w-8 rounded-full shadow-sm hover:shadow-md transition-all"
+                        onClick={() => onUpdateQuantity(item.id, 1)}
+                      >
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+
+                    {/* Payment Amount */}
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Total</p>
+                      <p className="text-xl font-serif font-bold text-primary">
+                        ${item.price * item.quantity} MXN
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="text-right font-medium">
-                  ${item.price * item.quantity} MXN
                 </div>
               </div>
             ))}
