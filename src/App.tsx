@@ -13,6 +13,7 @@ import BakeCourse from './components/BakeCourse';
 import Tour from './components/Tour';
 import DailyPromo from './components/DailyPromo';
 import Cart from './components/Cart';
+import ExpertAgent from './components/ExpertAgent';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
 
@@ -137,6 +138,7 @@ export default function App() {
         </div>
       </footer>
 
+      <ExpertAgent />
       <Toaster position="bottom-right" />
     </div>
   );

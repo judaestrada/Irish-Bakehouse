@@ -1,9 +1,10 @@
 import { motion } from 'motion/react';
 import { TabType } from '../types';
-import { ShoppingBasket } from 'lucide-react';
+import { ShoppingBasket, Menu as MenuIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import React, { useState } from 'react';
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { toast } from 'sonner';
 
 interface NavbarProps {
@@ -15,7 +16,13 @@ interface NavbarProps {
 export default function Navbar({ activeTab, onTabChange, cartCount }: NavbarProps) {
   const tabs: TabType[] = ['HOME', 'MENU', 'BAKE COURSE', 'TOUR', 'THE DAILY PROMO'];
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [command, setCommand] = useState('');
+
+  const handleTabChange = (tab: TabType) => {
+    onTabChange(tab);
+    setIsMobileMenuOpen(false);
+  };
 
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,14 +58,14 @@ export default function Navbar({ activeTab, onTabChange, cartCount }: NavbarProp
           </span>
         </button>
 
-        {/* Navigation Buttons - Scrollable on mobile, aligned right */}
-        <div className="flex flex-1 items-center justify-end gap-1 sm:gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-2">
+        {/* Navigation Buttons - Desktop */}
+        <div className="hidden md:flex flex-1 items-center justify-end gap-2 px-2">
           {tabs.map((tab) => (
             <Button
               key={tab}
               variant={activeTab === tab ? "default" : "ghost"}
               onClick={() => onTabChange(tab)}
-              className={`rounded-full whitespace-nowrap text-[10px] sm:text-xs md:text-sm font-medium transition-all duration-300 ${
+              className={`rounded-full whitespace-nowrap text-xs lg:text-sm font-medium transition-all duration-300 ${
                 activeTab === tab 
                   ? 'shadow-md bg-primary text-primary-foreground' 
                   : 'hover:bg-primary/10 text-muted-foreground hover:text-primary'
@@ -94,6 +101,29 @@ export default function Navbar({ activeTab, onTabChange, cartCount }: NavbarProp
               </Badge>
             )}
           </Button>
+
+          {/* Mobile Menu Toggle */}
+          <div className="md:hidden">
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger render={<Button variant="ghost" size="icon" className="rounded-full" />}>
+                <MenuIcon className="w-6 h-6" />
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] flex flex-col pt-20 gap-4">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => handleTabChange(tab)}
+                    className={`
+                      text-2xl font-serif text-left transition-all duration-300 py-2
+                      ${activeTab === tab ? 'text-primary' : 'text-muted-foreground hover:text-primary'}
+                    `}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
 
       </div>
