@@ -4,7 +4,7 @@ import { Product } from '../types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Plus, Minus, Maximize2, X, Info, ClipboardList, ShieldAlert, Scale, Clock } from 'lucide-react';
+import { Plus, Minus, Maximize2, X, Info, ClipboardList, ShieldAlert, Scale, Clock, Activity } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
 import { ScrollArea } from './ui/scroll-area';
@@ -166,45 +166,50 @@ export default function Menu({ onAddToCart }: MenuProps) {
       <Dialog open={!!cartDetailProduct} onOpenChange={(open) => !open && setCartDetailProduct(null)}>
         <DialogContent 
           showCloseButton={false}
-          className="max-w-[95vw] w-full max-h-[90vh] p-0 overflow-hidden border-none bg-background/95 backdrop-blur-2xl shadow-2xl rounded-3xl sm:max-w-5xl"
+          className="max-w-[95vw] w-full max-h-[90vh] p-0 overflow-hidden border border-zinc-800 bg-zinc-950 shadow-[0_0_50px_rgba(59,130,246,0.15)] rounded-3xl sm:max-w-5xl"
         >
           {cartDetailProduct && (
             <div className="flex flex-col md:flex-row h-full max-h-[90vh]">
               {/* Image Section */}
-              <div className="h-48 sm:h-64 md:h-auto md:w-1/2 relative bg-muted/20 flex items-center justify-center overflow-hidden shrink-0">
+              <div className="h-48 sm:h-64 md:h-auto md:w-1/2 relative bg-zinc-900 flex items-center justify-center overflow-hidden shrink-0 border-b md:border-b-0 md:border-r border-zinc-800">
                 <img 
                   src={cartDetailProduct.image || `https://picsum.photos/seed/${cartDetailProduct.id}/1200/1200`} 
                   alt={cartDetailProduct.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover opacity-70 grayscale mix-blend-luminosity"
                   referrerPolicy="no-referrer"
                 />
+                <div className="absolute inset-0 bg-blue-500/10 mix-blend-overlay"></div>
                 <div className="absolute top-4 left-4 md:top-6 md:left-6">
-                  <Badge className="bg-primary/90 text-sm md:text-lg py-1 px-3 md:px-4 rounded-full shadow-lg">
+                  <div className="bg-black/80 border border-emerald-500/30 text-emerald-400 font-mono text-sm md:text-lg py-1 px-3 md:px-4 rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.2)]">
                     ${cartDetailProduct.price} MXN
-                  </Badge>
+                  </div>
+                </div>
+                <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 bg-black/60 backdrop-blur-md px-3 py-1 rounded text-xs font-mono text-zinc-300 border border-white/10">
+                  ID: {cartDetailProduct.id.substring(0, 8).toUpperCase()}
                 </div>
                 <button 
                   onClick={() => setCartDetailProduct(null)}
-                  className="absolute top-4 right-4 md:hidden bg-black/40 hover:bg-black/60 backdrop-blur-md text-white p-2 rounded-full transition-colors z-10"
+                  className="absolute top-4 right-4 md:hidden bg-black/60 hover:bg-black/80 border border-zinc-700 text-white p-2 rounded-lg transition-colors z-10"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Data Collector Section (Scrollable) */}
-              <div className="md:w-1/2 flex flex-col h-full bg-white/40 overflow-hidden">
-                <div className="p-4 md:p-8 border-b border-border/50 flex justify-between items-start shrink-0">
+              <div className="md:w-1/2 flex flex-col h-full bg-zinc-950 overflow-hidden">
+                <div className="p-4 md:p-8 border-b border-zinc-800 flex justify-between items-start shrink-0 bg-zinc-900/50">
                   <div>
-                    <Badge variant="outline" className="text-secondary border-secondary mb-1 md:mb-2 text-xs md:text-sm">
+                    <div className="text-blue-400 font-mono text-xs md:text-sm uppercase tracking-widest mb-2 flex items-center gap-2">
+                      <Activity className="w-4 h-4" />
                       {cartDetailProduct.category}
-                    </Badge>
-                    <h2 className="text-2xl md:text-4xl font-serif text-primary leading-tight">
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-mono text-zinc-100 leading-tight">
                       {cartDetailProduct.name}
                     </h2>
                   </div>
                   <button 
                     onClick={() => setCartDetailProduct(null)}
-                    className="hidden md:flex bg-muted hover:bg-muted/80 text-muted-foreground p-2 rounded-full transition-colors"
+                    className="hidden md:flex bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-400 hover:text-white p-2 rounded-lg transition-colors"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -212,12 +217,12 @@ export default function Menu({ onAddToCart }: MenuProps) {
 
                 <ScrollArea className="flex-grow p-4 md:p-8">
                   <div className="space-y-6 md:space-y-8 pb-4 md:pb-8">
-                    <section className="space-y-2 md:space-y-3">
-                      <div className="flex items-center gap-2 text-secondary">
+                    <section className="space-y-2 md:space-y-3 bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
+                      <div className="flex items-center gap-2 text-blue-400">
                         <Info className="w-4 h-4 md:w-5 md:h-5" />
-                        <h4 className="font-serif text-base md:text-lg font-medium">Description</h4>
+                        <h4 className="font-mono text-sm md:text-base uppercase tracking-wider">Description</h4>
                       </div>
-                      <p className="text-sm md:text-base text-muted-foreground italic leading-relaxed">
+                      <p className="text-sm md:text-base text-zinc-400 font-mono leading-relaxed">
                         {cartDetailProduct.description}
                       </p>
                     </section>
@@ -225,47 +230,47 @@ export default function Menu({ onAddToCart }: MenuProps) {
                     {cartDetailProduct.details && (
                       <>
                         <section className="space-y-4">
-                          <div className="flex items-center gap-2 text-secondary">
+                          <div className="flex items-center gap-2 text-emerald-400">
                             <ClipboardList className="w-5 h-5" />
-                            <h4 className="font-serif text-lg font-medium">Ingredients</h4>
+                            <h4 className="font-mono text-sm uppercase tracking-wider">Components</h4>
                           </div>
                           <div className="flex flex-wrap gap-2">
                             {cartDetailProduct.details.ingredients.map((ing, i) => (
-                              <Badge key={i} variant="secondary" className="bg-muted/50 text-muted-foreground font-normal">
+                              <div key={i} className="bg-zinc-900 border border-zinc-800 text-zinc-300 font-mono text-xs px-3 py-1.5 rounded-md">
                                 {ing}
-                              </Badge>
+                              </div>
                             ))}
                           </div>
                         </section>
 
                         <section className="space-y-4">
-                          <div className="flex items-center gap-2 text-secondary">
+                          <div className="flex items-center gap-2 text-red-400">
                             <ShieldAlert className="w-5 h-5" />
-                            <h4 className="font-serif text-lg font-medium">Allergens</h4>
+                            <h4 className="font-mono text-sm uppercase tracking-wider">Warnings / Allergens</h4>
                           </div>
                           <div className="flex flex-wrap gap-2">
                             {cartDetailProduct.details.allergens.map((all, i) => (
-                              <Badge key={i} variant="outline" className="text-red-500 border-red-200 bg-red-50">
+                              <div key={i} className="text-red-400 border border-red-500/30 bg-red-500/10 font-mono text-xs px-3 py-1.5 rounded-md">
                                 {all}
-                              </Badge>
+                              </div>
                             ))}
                           </div>
                         </section>
 
-                        <div className="grid grid-cols-2 gap-6 pt-4">
-                          <section className="space-y-2">
-                            <div className="flex items-center gap-2 text-secondary">
+                        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-800">
+                          <section className="bg-zinc-900/50 p-3 rounded-lg border border-zinc-800">
+                            <div className="flex items-center gap-2 text-purple-400 mb-2">
                               <Scale className="w-4 h-4" />
-                              <h4 className="font-serif text-sm font-medium">Weight</h4>
+                              <h4 className="font-mono text-xs uppercase tracking-wider">Mass</h4>
                             </div>
-                            <p className="text-muted-foreground text-sm">{cartDetailProduct.details.weight}</p>
+                            <p className="text-zinc-300 font-mono text-sm">{cartDetailProduct.details.weight}</p>
                           </section>
-                          <section className="space-y-2">
-                            <div className="flex items-center gap-2 text-secondary">
+                          <section className="bg-zinc-900/50 p-3 rounded-lg border border-zinc-800">
+                            <div className="flex items-center gap-2 text-amber-400 mb-2">
                               <Clock className="w-4 h-4" />
-                              <h4 className="font-serif text-sm font-medium">Shelf Life</h4>
+                              <h4 className="font-mono text-xs uppercase tracking-wider">Lifecycle</h4>
                             </div>
-                            <p className="text-muted-foreground text-sm">{cartDetailProduct.details.shelfLife}</p>
+                            <p className="text-zinc-300 font-mono text-sm">{cartDetailProduct.details.shelfLife}</p>
                           </section>
                         </div>
                       </>
@@ -273,33 +278,39 @@ export default function Menu({ onAddToCart }: MenuProps) {
                   </div>
                 </ScrollArea>
 
-                <div className="p-8 border-t border-border/50 bg-white/60 space-y-4">
-                  <div className="flex items-center justify-center gap-6 bg-muted/30 py-3 rounded-full border border-border/50">
-                    <button 
-                      onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                      className="p-2 hover:bg-white rounded-full transition-colors text-primary disabled:opacity-30"
-                      disabled={quantity <= 1}
-                    >
-                      <Minus className="w-5 h-5" />
-                    </button>
-                    <span className="text-2xl font-serif w-12 text-center">{quantity}</span>
-                    <button 
-                      onClick={() => setQuantity(prev => prev + 1)}
-                      className="p-2 hover:bg-white rounded-full transition-colors text-primary"
-                    >
-                      <Plus className="w-5 h-5" />
-                    </button>
+                <div className="p-6 md:p-8 border-t border-zinc-800 bg-zinc-950 space-y-6">
+                  <div className="flex flex-col space-y-2">
+                    <label className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Quantity Collector</label>
+                    <div className="flex items-center justify-between bg-zinc-900 p-2 rounded-xl border border-zinc-800">
+                      <button 
+                        onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                        className="p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors text-white disabled:opacity-30 disabled:hover:bg-zinc-800"
+                        disabled={quantity <= 1}
+                      >
+                        <Minus className="w-5 h-5" />
+                      </button>
+                      <div className="flex flex-col items-center">
+                        <span className="text-3xl font-mono font-bold text-white">{quantity}</span>
+                        <span className="text-[10px] font-mono text-zinc-500 uppercase">Units</span>
+                      </div>
+                      <button 
+                        onClick={() => setQuantity(prev => prev + 1)}
+                        className="p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors text-white"
+                      >
+                        <Plus className="w-5 h-5" />
+                      </button>
+                    </div>
                   </div>
 
                   <Button 
                     size="lg"
-                    className="w-full rounded-full py-7 text-xl font-serif shadow-lg shadow-primary/20"
+                    className="w-full rounded-xl py-7 text-lg font-mono uppercase tracking-widest bg-blue-600 hover:bg-blue-700 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all"
                     onClick={() => {
                       onAddToCart(cartDetailProduct, quantity);
                       setCartDetailProduct(null);
                     }}
                   >
-                    Confirm & Add {quantity > 1 ? `(${quantity})` : ''} to Cart
+                    Commit to Cart {quantity > 1 ? `[${quantity}]` : ''}
                   </Button>
                 </div>
               </div>
