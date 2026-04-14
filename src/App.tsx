@@ -97,7 +97,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(8px)' }}
             transition={{ 
-              duration: 2, 
+              duration: 1, 
               ease: [0.22, 1, 0.36, 1] // Custom cubic-bezier for a smooth, snappy mega-menu feel
             }}
             className="w-full h-full origin-top"
