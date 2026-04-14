@@ -1,10 +1,9 @@
 import { motion } from 'motion/react';
 import { TabType } from '../types';
-import { ShoppingBasket, Menu as MenuIcon, X } from 'lucide-react';
+import { ShoppingBasket } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import React, { useState } from 'react';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { toast } from 'sonner';
 
 interface NavbarProps {
@@ -15,30 +14,6 @@ interface NavbarProps {
 
 export default function Navbar({ activeTab, onTabChange, cartCount }: NavbarProps) {
   const tabs: TabType[] = ['HOME', 'MENU', 'BAKE COURSE', 'TOUR', 'THE DAILY PROMO'];
-
-  const NavLinks = ({ mobile = false }: { mobile?: boolean }) => (
-    <>
-      {tabs.map((tab) => (
-        <button
-          key={tab}
-          onClick={() => onTabChange(tab)}
-          className={`
-            text-sm font-medium transition-all duration-300 relative py-2
-            ${activeTab === tab ? 'text-primary' : 'text-muted-foreground hover:text-primary'}
-            ${mobile ? 'text-2xl font-serif text-left' : ''}
-          `}
-        >
-          {tab}
-          {!mobile && activeTab === tab && (
-            <motion.div 
-              layoutId="nav-underline"
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-            />
-          )}
-        </button>
-      ))}
-    </>
-  );
 
   const [command, setCommand] = useState('');
 
@@ -61,27 +36,42 @@ export default function Navbar({ activeTab, onTabChange, cartCount }: NavbarProp
 
   return (
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <button 
-            onClick={() => onTabChange('HOME')}
-            className="flex flex-col items-start group"
-          >
-            <span className="text-2xl font-serif font-bold text-primary leading-none group-hover:text-secondary transition-colors">
-              The Irish
-            </span>
-            <span className="text-sm font-serif italic text-secondary leading-none">
-              Bakehouse
-            </span>
-          </button>
+      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
+        
+        {/* Logo */}
+        <button 
+          onClick={() => onTabChange('HOME')}
+          className="flex flex-col items-start group shrink-0"
+        >
+          <span className="text-xl sm:text-2xl font-serif font-bold text-primary leading-none group-hover:text-secondary transition-colors">
+            The Irish
+          </span>
+          <span className="text-xs sm:text-sm font-serif italic text-secondary leading-none">
+            Bakehouse
+          </span>
+        </button>
 
-          <div className="hidden lg:flex items-center gap-6">
-            <NavLinks />
-          </div>
+        {/* Navigation Buttons - Scrollable on mobile, aligned right */}
+        <div className="flex flex-1 items-center justify-end gap-1 sm:gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-2">
+          {tabs.map((tab) => (
+            <Button
+              key={tab}
+              variant={activeTab === tab ? "default" : "ghost"}
+              onClick={() => onTabChange(tab)}
+              className={`rounded-full whitespace-nowrap text-[10px] sm:text-xs md:text-sm font-medium transition-all duration-300 ${
+                activeTab === tab 
+                  ? 'shadow-md bg-primary text-primary-foreground' 
+                  : 'hover:bg-primary/10 text-muted-foreground hover:text-primary'
+              }`}
+            >
+              {tab}
+            </Button>
+          ))}
         </div>
 
-        <div className="flex items-center gap-4">
-          <form onSubmit={handleCommand} className="hidden md:block">
+        {/* Right Actions */}
+        <div className="flex items-center gap-2 shrink-0">
+          <form onSubmit={handleCommand} className="hidden lg:block">
             <input 
               type="text" 
               value={command}
@@ -97,25 +87,15 @@ export default function Navbar({ activeTab, onTabChange, cartCount }: NavbarProp
             className="relative rounded-full hover:bg-primary/10"
             onClick={() => onTabChange('CART')}
           >
-            <ShoppingBasket className={`w-6 h-6 ${activeTab === 'CART' ? 'text-primary' : 'text-muted-foreground'}`} />
+            <ShoppingBasket className={`w-5 h-5 sm:w-6 sm:h-6 ${activeTab === 'CART' ? 'text-primary' : 'text-muted-foreground'}`} />
             {cartCount > 0 && (
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-secondary text-[10px]">
+              <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center p-0 bg-secondary text-[9px] sm:text-[10px]">
                 {cartCount}
               </Badge>
             )}
           </Button>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger render={<Button variant="ghost" size="icon" className="rounded-full" />}>
-                <MenuIcon className="w-6 h-6" />
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] flex flex-col pt-20 gap-8">
-                <NavLinks mobile />
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
+
       </div>
     </nav>
   );

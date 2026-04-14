@@ -23,14 +23,14 @@ export default function Home({ onNavigate }: HomeProps) {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 flex flex-col items-center text-center space-y-12 py-12 px-6 max-w-5xl"
+        className="relative z-10 flex flex-col items-center text-center space-y-8 md:space-y-12 py-12 px-4 sm:px-6 max-w-5xl"
       >
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           <motion.h1 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-6xl md:text-9xl font-serif text-white leading-tight drop-shadow-2xl"
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif text-white leading-tight drop-shadow-2xl"
           >
             A Taste of Ireland, <br />
             <span className="italic text-accent">Baked with Love.</span>
@@ -39,7 +39,7 @@ export default function Home({ onNavigate }: HomeProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-xl md:text-2xl text-white/90 font-serif italic max-w-3xl mx-auto drop-shadow-lg"
+            className="text-lg sm:text-xl md:text-2xl text-white/90 font-serif italic max-w-3xl mx-auto drop-shadow-lg"
           >
             Welcome to The Irish Bakehouse. From our hearth to your home, we bring you the finest artisanal breads and pastries, crafted with traditional recipes and a touch of Irish magic.
           </motion.p>
@@ -53,7 +53,7 @@ export default function Home({ onNavigate }: HomeProps) {
         >
           <Button 
             size="lg" 
-            className="rounded-full px-16 py-10 text-2xl font-serif bg-white text-primary hover:bg-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all hover:scale-105"
+            className="rounded-full px-8 py-6 text-lg sm:px-12 sm:py-8 sm:text-xl md:px-16 md:py-10 md:text-2xl font-serif bg-white text-primary hover:bg-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all hover:scale-105"
             onClick={() => onNavigate('MENU')}
           >
             Explore Our Menu

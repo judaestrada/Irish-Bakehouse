@@ -26,25 +26,50 @@ export default function Menu({ onAddToCart }: MenuProps) {
 
   const categories = Array.from(new Set(PRODUCTS.map(p => p.category)));
 
+  const scrollToCategory = (category: string) => {
+    const element = document.getElementById(`category-${category}`);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-12 py-8 px-4"
+      className="space-y-8 py-8 px-4"
     >
       <div className="text-center space-y-2">
         <h2 className="text-4xl font-serif text-primary">Our Artisanal Menu</h2>
         <p className="text-muted-foreground italic">Handcrafted daily in our traditional stone ovens.</p>
       </div>
 
-      {categories.map(category => (
-        <div key={category} className="space-y-6">
-          <div className="flex items-center gap-4">
-            <h3 className="text-2xl font-serif text-secondary whitespace-nowrap">{category}</h3>
-            <div className="h-px bg-border w-full" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Category Navigation Menu */}
+      <div className="sticky top-20 z-40 bg-background/95 backdrop-blur-md py-4 border-b border-border/50 -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex overflow-x-auto hide-scrollbar gap-2 sm:justify-center pb-2">
+          {categories.map(category => (
+            <Button
+              key={`nav-${category}`}
+              variant="outline"
+              className="rounded-full whitespace-nowrap border-primary/20 hover:bg-primary hover:text-primary-foreground transition-colors"
+              onClick={() => scrollToCategory(category)}
+            >
+              {category}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-12 pt-4">
+        {categories.map(category => (
+          <div key={category} id={`category-${category}`} className="space-y-6 scroll-mt-32">
+            <div className="flex items-center gap-4">
+              <h3 className="text-2xl font-serif text-secondary whitespace-nowrap">{category}</h3>
+              <div className="h-px bg-border w-full" />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {PRODUCTS.filter(p => p.category === category).map(product => (
               <Card 
                 key={product.id} 
@@ -86,6 +111,7 @@ export default function Menu({ onAddToCart }: MenuProps) {
           </div>
         </div>
       ))}
+      </div>
 
       {/* Full Screen Image View */}
       <Dialog open={!!selectedProduct} onOpenChange={(open) => !open && setSelectedProduct(null)}>
@@ -106,15 +132,15 @@ export default function Menu({ onAddToCart }: MenuProps) {
                 referrerPolicy="no-referrer"
               />
               
-              <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-2xl border border-white/20 text-white px-10 py-5 rounded-full flex items-center gap-8 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+              <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-2xl border border-white/20 text-white px-6 py-4 md:px-10 md:py-5 rounded-3xl md:rounded-full flex flex-col sm:flex-row items-center gap-4 md:gap-8 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-500 sm:translate-y-4 sm:group-hover:translate-y-0 shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-[90%] sm:w-auto">
                 <div className="text-center">
-                  <h3 className="text-3xl font-serif leading-none tracking-tight">{selectedProduct.name}</h3>
-                  <p className="text-accent font-serif text-lg mt-2">${selectedProduct.price} MXN</p>
+                  <h3 className="text-2xl md:text-3xl font-serif leading-none tracking-tight">{selectedProduct.name}</h3>
+                  <p className="text-accent font-serif text-base md:text-lg mt-1 md:mt-2">${selectedProduct.price} MXN</p>
                 </div>
-                <div className="h-10 w-px bg-white/20" />
+                <div className="hidden sm:block h-10 w-px bg-white/20" />
                 <Button 
                   size="lg"
-                  className="rounded-full bg-white text-primary hover:bg-white/90 px-8 font-serif text-lg"
+                  className="rounded-full bg-white text-primary hover:bg-white/90 px-6 py-4 md:px-8 font-serif text-base md:text-lg w-full sm:w-auto"
                   onClick={() => {
                     setCartDetailProduct(selectedProduct);
                     setSelectedProduct(null);
@@ -127,9 +153,9 @@ export default function Menu({ onAddToCart }: MenuProps) {
 
               <button 
                 onClick={() => setSelectedProduct(null)}
-                className="absolute top-8 right-8 bg-black/40 hover:bg-black/60 backdrop-blur-xl text-white p-3 rounded-full transition-all duration-300 hover:scale-110 border border-white/10"
+                className="absolute top-4 right-4 md:top-8 md:right-8 bg-black/40 hover:bg-black/60 backdrop-blur-xl text-white p-2 md:p-3 rounded-full transition-all duration-300 hover:scale-110 border border-white/10"
               >
-                <X className="w-8 h-8" />
+                <X className="w-6 h-6 md:w-8 md:h-8" />
               </button>
             </motion.div>
           )}
@@ -145,34 +171,34 @@ export default function Menu({ onAddToCart }: MenuProps) {
           {cartDetailProduct && (
             <div className="flex flex-col md:flex-row h-full max-h-[90vh]">
               {/* Image Section */}
-              <div className="md:w-1/2 relative bg-muted/20 flex items-center justify-center overflow-hidden">
+              <div className="h-48 sm:h-64 md:h-auto md:w-1/2 relative bg-muted/20 flex items-center justify-center overflow-hidden shrink-0">
                 <img 
                   src={cartDetailProduct.image || `https://picsum.photos/seed/${cartDetailProduct.id}/1200/1200`} 
                   alt={cartDetailProduct.name}
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute top-6 left-6">
-                  <Badge className="bg-primary/90 text-lg py-1 px-4 rounded-full shadow-lg">
+                <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                  <Badge className="bg-primary/90 text-sm md:text-lg py-1 px-3 md:px-4 rounded-full shadow-lg">
                     ${cartDetailProduct.price} MXN
                   </Badge>
                 </div>
                 <button 
                   onClick={() => setCartDetailProduct(null)}
-                  className="absolute top-6 right-6 md:hidden bg-black/20 hover:bg-black/40 backdrop-blur-md text-white p-2 rounded-full transition-colors"
+                  className="absolute top-4 right-4 md:hidden bg-black/40 hover:bg-black/60 backdrop-blur-md text-white p-2 rounded-full transition-colors z-10"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Data Collector Section (Scrollable) */}
-              <div className="md:w-1/2 flex flex-col h-full bg-white/40">
-                <div className="p-8 border-b border-border/50 flex justify-between items-start">
+              <div className="md:w-1/2 flex flex-col h-full bg-white/40 overflow-hidden">
+                <div className="p-4 md:p-8 border-b border-border/50 flex justify-between items-start shrink-0">
                   <div>
-                    <Badge variant="outline" className="text-secondary border-secondary mb-2">
+                    <Badge variant="outline" className="text-secondary border-secondary mb-1 md:mb-2 text-xs md:text-sm">
                       {cartDetailProduct.category}
                     </Badge>
-                    <h2 className="text-3xl md:text-4xl font-serif text-primary leading-tight">
+                    <h2 className="text-2xl md:text-4xl font-serif text-primary leading-tight">
                       {cartDetailProduct.name}
                     </h2>
                   </div>
@@ -184,14 +210,14 @@ export default function Menu({ onAddToCart }: MenuProps) {
                   </button>
                 </div>
 
-                <ScrollArea className="flex-grow p-8">
-                  <div className="space-y-8 pb-8">
-                    <section className="space-y-3">
+                <ScrollArea className="flex-grow p-4 md:p-8">
+                  <div className="space-y-6 md:space-y-8 pb-4 md:pb-8">
+                    <section className="space-y-2 md:space-y-3">
                       <div className="flex items-center gap-2 text-secondary">
-                        <Info className="w-5 h-5" />
-                        <h4 className="font-serif text-lg font-medium">Description</h4>
+                        <Info className="w-4 h-4 md:w-5 md:h-5" />
+                        <h4 className="font-serif text-base md:text-lg font-medium">Description</h4>
                       </div>
-                      <p className="text-muted-foreground italic leading-relaxed">
+                      <p className="text-sm md:text-base text-muted-foreground italic leading-relaxed">
                         {cartDetailProduct.description}
                       </p>
                     </section>

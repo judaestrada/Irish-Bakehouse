@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { TabType, Product, CartItem } from './types';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -87,9 +88,23 @@ export default function App() {
         onTabChange={setActiveTab} 
         cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)} 
       />
-      
-      <main className="flex-grow container mx-auto px-4 pb-20">
-        {renderContent()}
+
+      <main className="flex-grow container mx-auto px-4 pt-8 pb-8 relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: -20, scale: 0.98, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(8px)' }}
+            transition={{ 
+              duration: 2, 
+              ease: [0.22, 1, 0.36, 1] // Custom cubic-bezier for a smooth, snappy mega-menu feel
+            }}
+            className="w-full h-full origin-top"
+          >
+            {renderContent()}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <footer className="bg-muted/30 border-t border-border py-12">
