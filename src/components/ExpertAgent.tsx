@@ -21,7 +21,7 @@ export default function ExpertAgent() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<{ role: 'user' | 'baker'; text: string }[]>([
-    { role: 'baker', text: "Top of the mornin' to ya! I'm the Master Baker. How can I help you with your baking today?" }
+    { role: 'baker', text: "Top of the mornin' to ya! I'm the Adam Baker. How can I help you with your baking today?" }
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);

@@ -126,6 +126,11 @@ export default function App() {
           </div>
           <div className="space-y-4">
             <h4 className="font-serif text-lg">Connect</h4>
+            <p className="text-sm text-muted-foreground">
+              <span className="block mb-2">
+                Call us: <a href="tel:+524421037324" className="hover:text-primary transition-colors font-medium">+52 442 103 7324</a>
+              </span>
+            </p>
             <div className="flex justify-center md:justify-start gap-4 text-sm text-muted-foreground">
               <a href="#" className="hover:text-primary transition-colors underline underline-offset-4">Instagram</a>
               <a href="#" className="hover:text-primary transition-colors underline underline-offset-4">Facebook</a>
