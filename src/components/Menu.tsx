@@ -13,6 +13,85 @@ interface MenuProps {
   onAddToCart: (product: Product, quantity: number) => void;
 }
 
+interface ProductCardItemProps {
+  product: Product;
+  onAddToCart: (p: Product, q: number) => void;
+  onShowDetails: (p: Product) => void;
+  onShowFullScreen: (p: Product) => void;
+}
+
+const ProductCardItem: React.FC<ProductCardItemProps> = ({ 
+  product, 
+  onAddToCart, 
+  onShowDetails, 
+  onShowFullScreen 
+}) => {
+  const [quantity, setQuantity] = useState(1);
+
+  return (
+    <Card 
+      className="overflow-hidden border-none shadow-sm hover:shadow-md transition-all bg-white/50 backdrop-blur-sm group cursor-pointer flex flex-col"
+      onClick={() => onShowDetails(product)}
+    >
+      <div 
+        className="aspect-[4/3] overflow-hidden relative"
+        onClick={(e) => {
+          e.stopPropagation();
+          onShowFullScreen(product);
+        }}
+      >
+        <img 
+          src={product.image || `https://picsum.photos/seed/${product.id}/400/300`} 
+          alt={product.name}
+          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+          <div className="bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/30">
+            <Maximize2 className="text-white w-6 h-6" />
+          </div>
+        </div>
+        <Badge className="absolute top-4 right-4 bg-primary/90">
+          ${product.price} MXN
+        </Badge>
+      </div>
+      <CardHeader className="flex-grow">
+        <CardTitle className="font-serif text-xl">{product.name}</CardTitle>
+        <CardDescription className="italic line-clamp-2">{product.description}</CardDescription>
+      </CardHeader>
+      <CardFooter onClick={(e) => e.stopPropagation()} className="flex gap-2">
+        <div className="flex items-center bg-muted/30 rounded-full border border-border/50 p-1">
+          <button 
+            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+            className="p-1.5 hover:bg-white rounded-full transition-colors text-primary disabled:opacity-30"
+            disabled={quantity <= 1}
+          >
+            <Minus className="w-4 h-4" />
+          </button>
+          <span className="font-serif font-bold text-sm w-6 text-center">{quantity}</span>
+          <button 
+            onClick={() => setQuantity(quantity + 1)}
+            className="p-1.5 hover:bg-white rounded-full transition-colors text-primary"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
+        </div>
+        <Button 
+          variant="outline" 
+          className="flex-1 rounded-full border-primary text-primary hover:bg-primary hover:text-white px-2"
+          onClick={() => {
+            onAddToCart(product, quantity);
+            setQuantity(1);
+          }}
+        >
+          <Plus className="w-4 h-4 mr-1 sm:mr-2" />
+          Add to Cart
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
 export default function Menu({ onAddToCart }: MenuProps) {
   const [cartDetailProduct, setCartDetailProduct] = useState<Product | null>(null);
   const [fullScreenImage, setFullScreenImage] = useState<Product | null>(null);
@@ -71,48 +150,13 @@ export default function Menu({ onAddToCart }: MenuProps) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {PRODUCTS.filter(p => p.category === category).map(product => (
-              <Card 
-                key={product.id} 
-                className="overflow-hidden border-none shadow-sm hover:shadow-md transition-all bg-white/50 backdrop-blur-sm group cursor-pointer"
-                onClick={() => setCartDetailProduct(product)}
-              >
-                <div 
-                  className="aspect-[4/3] overflow-hidden relative"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFullScreenImage(product);
-                  }}
-                >
-                  <img 
-                    src={product.image || `https://picsum.photos/seed/${product.id}/400/300`} 
-                    alt={product.name}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <div className="bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/30">
-                      <Maximize2 className="text-white w-6 h-6" />
-                    </div>
-                  </div>
-                  <Badge className="absolute top-4 right-4 bg-primary/90">
-                    ${product.price} MXN
-                  </Badge>
-                </div>
-                <CardHeader>
-                  <CardTitle className="font-serif text-xl">{product.name}</CardTitle>
-                  <CardDescription className="italic line-clamp-2">{product.description}</CardDescription>
-                </CardHeader>
-                <CardFooter onClick={(e) => e.stopPropagation()}>
-                  <Button 
-                    variant="outline" 
-                    className="w-full rounded-full border-primary text-primary hover:bg-primary hover:text-white"
-                    onClick={() => setCartDetailProduct(product)}
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add to Cart
-                  </Button>
-                </CardFooter>
-              </Card>
+              <ProductCardItem 
+                key={product.id}
+                product={product}
+                onAddToCart={onAddToCart}
+                onShowDetails={setCartDetailProduct}
+                onShowFullScreen={setFullScreenImage}
+              />
             ))}
           </div>
         </div>
