@@ -132,8 +132,8 @@ export default function App() {
               </span>
             </p>
             <div className="flex justify-center md:justify-start gap-4 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-primary transition-colors underline underline-offset-4">Instagram</a>
-              <a href="#" className="hover:text-primary transition-colors underline underline-offset-4">Facebook</a>
+              <a href="https://www.instagram.com/irishbakehouse/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors underline underline-offset-4">Instagram</a>
+              <a href="https://www.facebook.com/irishbakehouse/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors underline underline-offset-4">Facebook</a>
               <a href="#" className="hover:text-primary transition-colors underline underline-offset-4">Twitter</a>
             </div>
           </div>
